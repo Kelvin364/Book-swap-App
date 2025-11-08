@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FirestoreService {
@@ -8,7 +7,6 @@ class FirestoreService {
   static final instance = FirestoreService._();
 
   final _db = FirebaseFirestore.instance;
-  // final _storage = FirebaseStorage.instance;
 
   // ---------- Books ----------
   Stream<QuerySnapshot<Map<String, dynamic>>> books() =>
@@ -34,8 +32,7 @@ class FirestoreService {
     await _db.collection('books').doc(id).update(data);
   }
 
-  Future<void> deleteBook(String id) =>
-      _db.collection('books').doc(id).delete();
+  Future<void> deleteBook(String id) => _db.collection('books').doc(id).delete();
 
   // ---------- Swaps ----------
   Stream<QuerySnapshot<Map<String, dynamic>>> myOffers(String uid) =>
@@ -44,12 +41,7 @@ class FirestoreService {
   Stream<QuerySnapshot<Map<String, dynamic>>> incomingOffers(String uid) =>
       _db.collection('swaps').where('receiverId', isEqualTo: uid).snapshots();
 
-  Future<String> createSwap({
-    required String bookId,
-    required String senderId,
-    required String receiverId,
-  }) async {
-    print('Creating swap for book: $bookId');
+  Future<String> createSwap({required String bookId, required String senderId, required String receiverId}) async {
     final ref = _db.collection('swaps').doc();
     await ref.set({
       'bookId': bookId,
@@ -58,9 +50,7 @@ class FirestoreService {
       'status': 'Pending',
       'createdAt': FieldValue.serverTimestamp(),
     });
-    print('Updating book status to Pending for book: $bookId');
     await _db.collection('books').doc(bookId).update({'status': 'Pending'});
-    print('Book status updated successfully');
     return ref.id;
   }
 
@@ -101,12 +91,7 @@ class FirestoreService {
     await batch.commit();
   }
 
-  Future<void> rateUser(
-    String ratedUserId,
-    String raterUserId,
-    int rating,
-    String comment,
-  ) async {
+  Future<void> rateUser(String ratedUserId, String raterUserId, int rating, String comment) async {
     await _db.collection('ratings').add({
       'ratedUserId': ratedUserId,
       'raterUserId': raterUserId,
@@ -117,71 +102,56 @@ class FirestoreService {
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getUserRatings(String userId) =>
-      _db
-          .collection('ratings')
-          .where('ratedUserId', isEqualTo: userId)
-          .snapshots();
+      _db.collection('ratings').where('ratedUserId', isEqualTo: userId).snapshots();
 
   // Clear all data for current user
   Future<void> clearAllUserData(String userId) async {
     final batch = _db.batch();
-
+    
     // Delete user's books
-    final books = await _db
-        .collection('books')
-        .where('ownerId', isEqualTo: userId)
-        .get();
+    final books = await _db.collection('books').where('ownerId', isEqualTo: userId).get();
     for (final doc in books.docs) {
       batch.delete(doc.reference);
     }
-
+    
     // Delete user's swaps
-    final sentSwaps = await _db
-        .collection('swaps')
-        .where('senderId', isEqualTo: userId)
-        .get();
-    final receivedSwaps = await _db
-        .collection('swaps')
-        .where('receiverId', isEqualTo: userId)
-        .get();
+    final sentSwaps = await _db.collection('swaps').where('senderId', isEqualTo: userId).get();
+    final receivedSwaps = await _db.collection('swaps').where('receiverId', isEqualTo: userId).get();
     for (final doc in [...sentSwaps.docs, ...receivedSwaps.docs]) {
       batch.delete(doc.reference);
     }
-
+    
     // Delete user's ratings
-    final ratings = await _db
-        .collection('ratings')
-        .where('raterUserId', isEqualTo: userId)
-        .get();
+    final ratings = await _db.collection('ratings').where('raterUserId', isEqualTo: userId).get();
     for (final doc in ratings.docs) {
       batch.delete(doc.reference);
     }
-
+    
     await batch.commit();
   }
 
   // Clear ALL data from database (all users)
   Future<void> clearAllData() async {
     final batch = _db.batch();
-
+    
     // Delete all books
     final books = await _db.collection('books').get();
     for (final doc in books.docs) {
       batch.delete(doc.reference);
     }
-
+    
     // Delete all swaps
     final swaps = await _db.collection('swaps').get();
     for (final doc in swaps.docs) {
       batch.delete(doc.reference);
     }
-
+    
     // Delete all ratings
     final ratings = await _db.collection('ratings').get();
     for (final doc in ratings.docs) {
       batch.delete(doc.reference);
     }
-
+    
     await batch.commit();
   }
 
@@ -192,10 +162,8 @@ class FirestoreService {
     return pair.join('_');
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> threads(String uid) => _db
-      .collection('threads')
-      .where('members', arrayContains: uid)
-      .snapshots();
+  Stream<QuerySnapshot<Map<String, dynamic>>> threads(String uid) =>
+      _db.collection('threads').where('members', arrayContains: uid).snapshots();
 
   Future<void> ensureThread(String uidA, String uidB) async {
     final id = chatIdFor(uidA, uidB);
@@ -210,12 +178,8 @@ class FirestoreService {
     }
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> messages(String chatId) => _db
-      .collection('threads')
-      .doc(chatId)
-      .collection('messages')
-      .orderBy('createdAt')
-      .snapshots();
+  Stream<QuerySnapshot<Map<String, dynamic>>> messages(String chatId) =>
+      _db.collection('threads').doc(chatId).collection('messages').orderBy('createdAt').snapshots();
 
   Future<void> sendMessage({
     required String chatId,
@@ -224,11 +188,7 @@ class FirestoreService {
     required String text,
   }) async {
     final batch = _db.batch();
-    final msgRef = _db
-        .collection('threads')
-        .doc(chatId)
-        .collection('messages')
-        .doc();
+    final msgRef = _db.collection('threads').doc(chatId).collection('messages').doc();
     batch.set(msgRef, {
       'from': from,
       'to': to,
