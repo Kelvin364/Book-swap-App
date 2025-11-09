@@ -121,16 +121,6 @@ Want to help improve BookSwap?
 4. Test everything works
 5. Submit a pull request
 
-## Future features
-
-Ideas for making the app better:
-- [ ] Location-based book discovery
-- [ ] Book condition ratings
-- [ ] User reviews and ratings
-- [ ] Wishlist feature
-- [ ] Book recommendations
-- [ ] Group swaps (multiple people)
-
 ## Need help?
 
 - Check [Flutter documentation](https://flutter.dev/docs)
