@@ -12,8 +12,10 @@ BookSwap lets you:
 - **Get notifications** when someone wants your books
 
 ## Screenshots
-
-*Add screenshots of your app here when ready*
+![Page 1](<android/Assets/Screenshot 2025-11-09 111416.png>)
+![Page 2](<android/Assets/Screenshot 2025-11-09 111440.png>)
+![Page 3](<android/Assets/Screenshot 2025-11-09 111449.png>)
+![Page 4](<android/Assets/Screenshot 2025-11-09 111504.png>)
 
 ## How to set up this app
 
