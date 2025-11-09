@@ -83,23 +83,6 @@ service cloud.firestore {
 flutter run
 ```
 
-
-
-## App structure
-
-```
-lib/
-├── models/          # Data structures (Book, User, etc.)
-├── providers/       # State management
-├── screens/         # App pages
-│   ├── auth/        # Login, signup, email verification
-│   ├── home/        # Browse books, post books
-│   ├── chat/        # Messaging
-│   └── settings/    # User settings
-├── services/        # Firebase connections
-└── widgets/         # Reusable UI components
-```
-
 ## Technologies used
 
 - **Flutter** - Mobile app framework
