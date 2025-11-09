@@ -17,18 +17,12 @@ BookSwap lets you:
 ![Page 3](<android/Assets/Screenshot 2025-11-09 111449.png>)
 ![Page 4](<android/Assets/Screenshot 2025-11-09 111504.png>)
 
-## How to set up this app
-
-### What you need first
-
-1. **Flutter** - Download from [flutter.dev](https://flutter.dev/docs/get-started/install)
-2. **Android Studio** or **VS Code** with Flutter plugin
-3. **Firebase account** - Sign up at [firebase.google.com](https://firebase.google.com)
+### Need this application
 
 ### Step 1: Get the code
 
 ```bash
-git clone <your-repo-url>
+git clone <git@github.com:Kelvin364/Book-swap-App.git>
 cd bookswap_app
 ```
 
@@ -89,37 +83,7 @@ service cloud.firestore {
 flutter run
 ```
 
-## How to use the app
 
-### First time setup
-1. **Sign up** with your email
-2. **Verify your email** (check your inbox)
-3. **Log in** to start using the app
-
-### Adding books to trade
-1. Tap the **+ button** on the home screen
-2. Fill in book details (title, author, condition)
-3. Take a photo of your book
-4. Say what you want in return
-5. Tap **Post Book**
-
-### Finding books to swap
-1. Browse the **Home** tab to see all available books
-2. Use the **search bar** to find specific books or authors
-3. Tap **Request Swap** on books you want
-4. Wait for the owner to respond
-
-### Managing your books
-1. Go to **My Listings** tab
-2. See books you've posted
-3. Check **incoming requests** from other users
-4. Accept or decline swap requests
-
-### Chatting with traders
-1. Go to **Chats** tab
-2. Start conversations with people you're trading with
-3. Arrange meetup details
-4. Confirm when trades are complete
 
 ## App structure
 
@@ -145,23 +109,7 @@ lib/
 - **Provider** - State management
 - **Cloud Messaging** - Push notifications
 
-## Common problems and fixes
 
-### "Firebase not configured" error
-- Make sure you added `google-services.json` to `android/app/`
-- Run `flutter clean` then `flutter pub get`
-
-### App crashes on startup
-- Check if Firebase project is set up correctly
-- Make sure all Firebase services are enabled
-
-### Can't upload photos
-- Check if Firebase Storage is enabled
-- Make sure storage rules allow authenticated users
-
-### No notifications
-- Enable Cloud Messaging in Firebase
-- Check device notification permissions
 
 ## Contributing
 
@@ -193,6 +141,3 @@ Ideas for making the app better:
 
 This project is open source. Feel free to use and modify it.
 
----
-
-**Happy book swapping! 📖✨**
